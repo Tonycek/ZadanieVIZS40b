@@ -1,9 +1,15 @@
 ﻿  main.cpp
-c:\users\tono\documents\visual studio 2015\projects\zadanievizs40b\zadanievizs40b\main.cpp(196): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\tono\documents\visual studio 2015\projects\zadanievizs40b\zadanievizs40b\main.cpp(201): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\tono\documents\visual studio 2015\projects\zadanievizs40b\zadanievizs40b\main.cpp(209): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-c:\users\tono\documents\visual studio 2015\projects\zadanievizs40b\zadanievizs40b\main.cpp(212): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-c:\users\tono\documents\visual studio 2015\projects\zadanievizs40b\zadanievizs40b\main.cpp(224): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\tono\documents\visual studio 2015\projects\zadanievizs40b\zadanievizs40b\main.cpp(225): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\tono\documents\visual studio 2015\projects\zadanievizs40b\zadanievizs40b\main.cpp(205): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\tono\documents\visual studio 2015\projects\zadanievizs40b\zadanievizs40b\main.cpp(210): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\tono\documents\visual studio 2015\projects\zadanievizs40b\zadanievizs40b\main.cpp(218): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\tono\documents\visual studio 2015\projects\zadanievizs40b\zadanievizs40b\main.cpp(221): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\tono\documents\visual studio 2015\projects\zadanievizs40b\zadanievizs40b\main.cpp(233): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\tono\documents\visual studio 2015\projects\zadanievizs40b\zadanievizs40b\main.cpp(234): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\tono\documents\visual studio 2015\projects\zadanievizs40b\zadanievizs40b\main.cpp(243): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\tono\documents\visual studio 2015\projects\zadanievizs40b\zadanievizs40b\main.cpp(248): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\tono\documents\visual studio 2015\projects\zadanievizs40b\zadanievizs40b\main.cpp(256): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\tono\documents\visual studio 2015\projects\zadanievizs40b\zadanievizs40b\main.cpp(259): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\tono\documents\visual studio 2015\projects\zadanievizs40b\zadanievizs40b\main.cpp(271): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\tono\documents\visual studio 2015\projects\zadanievizs40b\zadanievizs40b\main.cpp(272): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
   ZadanieVIZS40b.vcxproj -> C:\Users\Tono\Documents\Visual Studio 2015\Projects\ZadanieVIZS40b\x64\Debug\ZadanieVIZS40b.exe
   ZadanieVIZS40b.vcxproj -> C:\Users\Tono\Documents\Visual Studio 2015\Projects\ZadanieVIZS40b\x64\Debug\ZadanieVIZS40b.pdb (Full PDB)

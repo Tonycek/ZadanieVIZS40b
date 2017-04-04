@@ -127,7 +127,7 @@ int main(int argc, char **argv) {
 	//	capture.open(1);
 
 	//	capture >> frame;
-	//	ss << "../Data/cervenyKruh23cm" << temp << ".jpg";
+	//	ss << "../Data/cervenyKruhXcm" << temp << ".jpg";
 	//	imwrite(ss.str(), frame);
 	//	temp++;
 
@@ -151,7 +151,7 @@ int main(int argc, char **argv) {
 	
 	while (temp < 100)
 	{
- 		ss << "../Data/cervenyKruh23cm" << temp << ".jpg";
+ 		ss << "../Data/cervenyKruhX" << temp << ".jpg";
 	
 	cv::Mat bgr_image = cv::imread(ss.str());
 
@@ -173,16 +173,23 @@ int main(int argc, char **argv) {
 	// Threshold the HSV image, keep only the red pixels
 	cv::Mat lower_red_hue_range;
 	cv::Mat upper_red_hue_range;
+	cv::Mat green_hue_range;
 	//cv::inRange(hsv_image, cv::Scalar(0, 100, 100), cv::Scalar(10, 255, 255), lower_red_hue_range);
 	//cv::inRange(hsv_image, cv::Scalar(160, 100, 100), cv::Scalar(179, 255, 255), upper_red_hue_range);
 
-	cv::inRange(hsv_image, cv::Scalar(0, 100, 100), cv::Scalar(10, 255, 255), lower_red_hue_range);
-	cv::inRange(hsv_image, cv::Scalar(160, 100, 100), cv::Scalar(189, 255, 255), upper_red_hue_range);
+	/*cv::inRange(hsv_image, cv::Scalar(0, 100, 100), cv::Scalar(10, 255, 255), lower_red_hue_range);
+	cv::inRange(hsv_image, cv::Scalar(160, 100, 100), cv::Scalar(189, 255, 255), upper_red_hue_range);*/
+
+	cv::inRange(hsv_image, cv::Scalar(0, 70, 50), cv::Scalar(10, 255, 255), lower_red_hue_range);
+	cv::inRange(hsv_image, cv::Scalar(170, 70, 50), cv::Scalar(180, 255, 255), upper_red_hue_range);
+
+	cv::inRange(hsv_image, cv::Scalar(70, 100, 100), cv::Scalar(120, 255, 255), green_hue_range);
+
 
 
 	// Combine the above two images
 	cv::Mat red_hue_image;
-	cv::addWeighted(lower_red_hue_range,0.0, upper_red_hue_range, 1, 0.0, red_hue_image);
+	cv::addWeighted(lower_red_hue_range,1, upper_red_hue_range, 1, 0.0, red_hue_image);
 
 	cv::GaussianBlur(red_hue_image, red_hue_image, cv::Size(9, 9), 2, 2);
 
@@ -190,6 +197,8 @@ int main(int argc, char **argv) {
 	std::vector<cv::Vec3f> circles;
 	cv::HoughCircles(red_hue_image, circles, CV_HOUGH_GRADIENT, 1, red_hue_image.rows / 8, 100, 20, 0, 0);
 
+	std::vector<cv::Vec3f> circlesGreen;
+	cv::HoughCircles(green_hue_range, circlesGreen, CV_HOUGH_GRADIENT, 1, green_hue_range.rows / 8, 100, 20, 0, 0);
 	// Loop over all detected circles and outline them on the original image
 //	if (circles.size() == 0) std::exit(-1);
 	for (size_t current_circle = 0; current_circle < circles.size(); ++current_circle) {
@@ -230,20 +239,60 @@ int main(int argc, char **argv) {
 		cv::circle(orig_image, center, radius, cv::Scalar(0, 255, 0), 5);
 	}
 
+	for (size_t current_circle = 0; current_circle < circlesGreen.size(); ++current_circle) {
+		cv::Point center(std::round(circlesGreen[current_circle][0]), std::round(circlesGreen[current_circle][1]));
+
+		if (current_circle != 0)
+			break;
+
+		int radius = std::round(circlesGreen[current_circle][2]);
+
+		//	putText(cameraFeed, "Tracking Object", Point(0, 50), 2, 1, Scalar(0, 255, 0), 2);
+		double xko = circlesGreen[current_circle][0];
+		double yko = circlesGreen[current_circle][1];
+		//	putText(orig_image, "X:10", Point(circles[current_circle][0], circles[current_circle][1]), 2, 1, Scalar(0, 255, 0), 2);
+
+		if (xko > stredSirka)
+			posun = xko - stredSirka;
+
+		else
+			posun = (stredSirka - xko)*(-1);
+
+		//	double bodY = posun*pixelPosun;
+		double distance = (0.0000007667*pow(radius, 4) - 0.0003074*pow(radius, 3) + 0.04678*pow(radius, 2) - 3.382*pow(radius, 1) + 115.8);	//suradnica X
+		if (distance > 60)
+			break;
+
+		double Dc = sqrt(pow(xko - 320, 2) + pow(yko - 240, 2));
+		/*	double lenX = xko - 335;
+		double lexX = (double) lenX * 45 / 670;*/
+		double Dw = (distance / 100)*sin(Dc * 45 / 640 * 3.14159 / 180);		// suradnica Y
+
+		putText(orig_image, "BodX:" + std::to_string(distance), Point(circlesGreen[current_circle][0] - 40, circlesGreen[current_circle][1]), 2, 1, Scalar(0, 255, 0), 2);
+		putText(orig_image, "BodY:" + std::to_string(Dw), Point(circlesGreen[current_circle][0] - 40, circlesGreen[current_circle][1] + 40), 2, 1, Scalar(0, 255, 0), 2);
+
+
+		printf("Kruh %d vzdialenost od kamery: %fmm,  X:%f,  Y:%f,   polomer:%d\n", (int)current_circle, distance, xko, yko, radius);
+		printf("WIDTH: %d,  HEIGHT:%d, bod Y:%f\n", w, h, Dw);
+		cv::circle(orig_image, center, radius, cv::Scalar(255, 0, 0), 5);
+	}
+
 	// Show images
 	/*cv::namedWindow("Threshold lower image", cv::WINDOW_AUTOSIZE);
 	cv::imshow("Threshold lower image", lower_red_hue_range);
 	cv::namedWindow("Threshold upper image", cv::WINDOW_AUTOSIZE);
-	cv::imshow("Threshold upper image", upper_red_hue_range);
+	cv::imshow("Threshold upper image", upper_red_hue_range);*/
 	cv::namedWindow("Combined threshold images", cv::WINDOW_AUTOSIZE);
-	cv::imshow("Combined threshold images", red_hue_image);*/
+	cv::imshow("Combined threshold images", red_hue_image);
+	cv::namedWindow("Green images", cv::WINDOW_AUTOSIZE);
+	cv::imshow("Green images", green_hue_range);
 	cv::namedWindow("Detected red circles on the input image", cv::WINDOW_NORMAL);
 	cv::imshow("Detected red circles on the input image", orig_image);
 
 	/*cv::resizeWindow("Threshold lower image", 800, 600);
 	cv::resizeWindow("Threshold upper image", 800, 600);
 	cv::resizeWindow("Combined threshold images", 800, 600);*/
-	cv::resizeWindow("Detected red circles on the input image", 800, 600);
+	//cv::resizeWindow("Detected red circles on the input image", 800, 600);
 	cv::waitKey(1000);
 
 	temp++;
