@@ -127,7 +127,7 @@ int main(int argc, char **argv) {
 	//	capture.open(1);
 
 	//	capture >> frame;
-	//	ss << "../Data/cervenyKruhXcm" << temp << ".jpg";
+	//	ss << "../Data/cervenyKruhX" << temp << ".jpg";
 	//	imwrite(ss.str(), frame);
 	//	temp++;
 
@@ -183,7 +183,7 @@ int main(int argc, char **argv) {
 	cv::inRange(hsv_image, cv::Scalar(0, 70, 50), cv::Scalar(10, 255, 255), lower_red_hue_range);
 	cv::inRange(hsv_image, cv::Scalar(170, 70, 50), cv::Scalar(180, 255, 255), upper_red_hue_range);
 
-	cv::inRange(hsv_image, cv::Scalar(70, 100, 100), cv::Scalar(120, 255, 255), green_hue_range);
+	cv::inRange(hsv_image, cv::Scalar(65, 130, 0), cv::Scalar(100, 255, 255), green_hue_range);		//150,0
 
 
 
@@ -228,10 +228,11 @@ int main(int argc, char **argv) {
 		double Dc = sqrt(pow(xko - 320, 2) + pow(yko - 240, 2));
 	/*	double lenX = xko - 335;
 		double lexX = (double) lenX * 45 / 670;*/
-		double Dw = (distance/100)*sin(Dc*45/640*3.14159/180);		// suradnica Y
+		double Dw = (distance/100)*sin(Dc*45/640*3.14159/180)*100;		// suradnica Y
 
-		putText(orig_image, "BodX:" + std::to_string(distance), Point(circles[current_circle][0]-40, circles[current_circle][1]), 2, 1, Scalar(0, 255, 0), 2);
-		putText(orig_image, "BodY:" + std::to_string(Dw), Point(circles[current_circle][0]-40, circles[current_circle][1] + 40), 2, 1, Scalar(0, 255, 0), 2);
+		putText(orig_image, "BodX:" + std::to_string(distance) + "cm", Point(circles[current_circle][0]-40, circles[current_circle][1]), 2, 1, Scalar(0, 255, 0), 2);
+		putText(orig_image, "BodY:" + std::to_string(Dw) + "cm", Point(circles[current_circle][0]-40, circles[current_circle][1] + 40), 2, 1, Scalar(0, 255, 0), 2);
+		putText(orig_image, "Zastav sa!!!", Point(400,50), 2, 1, Scalar(0, 255, 0), 2);
 
 
 		printf("Kruh %d vzdialenost od kamery: %fmm,  X:%f,  Y:%f,   polomer:%d\n", (int)current_circle, distance, xko, yko, radius);
@@ -242,8 +243,8 @@ int main(int argc, char **argv) {
 	for (size_t current_circle = 0; current_circle < circlesGreen.size(); ++current_circle) {
 		cv::Point center(std::round(circlesGreen[current_circle][0]), std::round(circlesGreen[current_circle][1]));
 
-		if (current_circle != 0)
-			break;
+		/*if (current_circle != 0)
+			break;*/
 
 		int radius = std::round(circlesGreen[current_circle][2]);
 
@@ -266,10 +267,11 @@ int main(int argc, char **argv) {
 		double Dc = sqrt(pow(xko - 320, 2) + pow(yko - 240, 2));
 		/*	double lenX = xko - 335;
 		double lexX = (double) lenX * 45 / 670;*/
-		double Dw = (distance / 100)*sin(Dc * 45 / 640 * 3.14159 / 180);		// suradnica Y
+		double Dw = (distance / 100)*sin(Dc * 45 / 640 * 3.14159 / 180)*100;		// suradnica Y
 
-		putText(orig_image, "BodX:" + std::to_string(distance), Point(circlesGreen[current_circle][0] - 40, circlesGreen[current_circle][1]), 2, 1, Scalar(0, 255, 0), 2);
-		putText(orig_image, "BodY:" + std::to_string(Dw), Point(circlesGreen[current_circle][0] - 40, circlesGreen[current_circle][1] + 40), 2, 1, Scalar(0, 255, 0), 2);
+		putText(orig_image, "BodX:" + std::to_string(distance) + "cm", Point(circlesGreen[current_circle][0] - 40, circlesGreen[current_circle][1]), 2, 1, Scalar(0, 255, 0), 2);
+		putText(orig_image, "BodY:" + std::to_string(Dw) + "cm", Point(circlesGreen[current_circle][0] - 40, circlesGreen[current_circle][1] + 40), 2, 1, Scalar(0, 255, 0), 2);
+		putText(orig_image, "Mozes ist!!!", Point(100, 50), 2, 1, Scalar(0, 255, 0), 2);
 
 
 		printf("Kruh %d vzdialenost od kamery: %fmm,  X:%f,  Y:%f,   polomer:%d\n", (int)current_circle, distance, xko, yko, radius);
