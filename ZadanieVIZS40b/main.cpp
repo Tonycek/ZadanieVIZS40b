@@ -121,13 +121,13 @@ int main(int argc, char **argv) {
 	std::stringstream ss;
 	//ss << "../Data/cervenyKruh" << temp << ".jpg";
 
-	//while (temp < 100) {
+	//while (temp < 1) {
 	//	VideoCapture capture;
 	//	//open capture object at location zero (default location for webcam)
 	//	capture.open(1);
 
 	//	capture >> frame;
-	//	ss << "../Data/cervenyKruhX" << temp << ".jpg";
+	//	ss << "../Data/cervenyKruhXXX" << temp << ".jpg";
 	//	imwrite(ss.str(), frame);
 	//	temp++;
 
@@ -170,6 +170,7 @@ int main(int argc, char **argv) {
 	int w = hsv_image.cols;
 	int h = hsv_image.rows;
 
+	Vec3b pixel = hsv_image.at<cv::Vec3b>(236.5, 413.5);
 	// Threshold the HSV image, keep only the red pixels
 	cv::Mat lower_red_hue_range;
 	cv::Mat upper_red_hue_range;
@@ -183,8 +184,8 @@ int main(int argc, char **argv) {
 	cv::inRange(hsv_image, cv::Scalar(0, 70, 50), cv::Scalar(10, 255, 255), lower_red_hue_range);
 	cv::inRange(hsv_image, cv::Scalar(170, 70, 50), cv::Scalar(180, 255, 255), upper_red_hue_range);
 
-	cv::inRange(hsv_image, cv::Scalar(65, 130, 0), cv::Scalar(100, 255, 255), green_hue_range);		//150,0
-
+	//cv::inRange(hsv_image, cv::Scalar(65, 130, 0), cv::Scalar(100, 255, 255), green_hue_range);		//150,0
+	cv::inRange(hsv_image, cv::Scalar(60, 45, 0), cv::Scalar(150, 255, 255), green_hue_range);
 
 
 	// Combine the above two images
@@ -192,6 +193,8 @@ int main(int argc, char **argv) {
 	cv::addWeighted(lower_red_hue_range,1, upper_red_hue_range, 1, 0.0, red_hue_image);
 
 	cv::GaussianBlur(red_hue_image, red_hue_image, cv::Size(9, 9), 2, 2);
+
+	cv::GaussianBlur(green_hue_range, green_hue_range, cv::Size(9, 9), 2, 2);
 
 	// Use the Hough transform to detect circles in the combined threshold image
 	std::vector<cv::Vec3f> circles;
@@ -232,7 +235,7 @@ int main(int argc, char **argv) {
 
 		putText(orig_image, "BodX:" + std::to_string(distance) + "cm", Point(circles[current_circle][0]-40, circles[current_circle][1]), 2, 1, Scalar(0, 255, 0), 2);
 		putText(orig_image, "BodY:" + std::to_string(Dw) + "cm", Point(circles[current_circle][0]-40, circles[current_circle][1] + 40), 2, 1, Scalar(0, 255, 0), 2);
-		putText(orig_image, "Zastav sa!!!", Point(400,50), 2, 1, Scalar(0, 255, 0), 2);
+		putText(orig_image, "Zastav sa!!!", Point(400,50), 2, 1, Scalar(0, 0, 255), 2);
 
 
 		printf("Kruh %d vzdialenost od kamery: %fmm,  X:%f,  Y:%f,   polomer:%d\n", (int)current_circle, distance, xko, yko, radius);
@@ -243,8 +246,8 @@ int main(int argc, char **argv) {
 	for (size_t current_circle = 0; current_circle < circlesGreen.size(); ++current_circle) {
 		cv::Point center(std::round(circlesGreen[current_circle][0]), std::round(circlesGreen[current_circle][1]));
 
-		/*if (current_circle != 0)
-			break;*/
+		if (current_circle != 0)
+			break;
 
 		int radius = std::round(circlesGreen[current_circle][2]);
 
@@ -295,7 +298,7 @@ int main(int argc, char **argv) {
 	cv::resizeWindow("Threshold upper image", 800, 600);
 	cv::resizeWindow("Combined threshold images", 800, 600);*/
 	//cv::resizeWindow("Detected red circles on the input image", 800, 600);
-	cv::waitKey(1000);
+	cv::waitKey(300);
 
 	temp++;
 
@@ -304,6 +307,6 @@ int main(int argc, char **argv) {
 	}
 	//double d = 129*2, Z=15, D = 10;
 	//d*Z / D
-
+	cv::waitKey(0);
 	return 0;
 }
