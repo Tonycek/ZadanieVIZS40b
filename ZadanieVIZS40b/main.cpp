@@ -112,7 +112,7 @@ int posun;
 int main(int argc, char **argv) {
 	// Usage: ./circle_detect image_circles_path
 //	check_program_arguments(argc);
-	int temp = 70;
+	int temp = 0;
 	double pixelPosun = (double)45 / 640;
 	double stredSirka = 335;//640 / 2;
 	// Load input image
@@ -149,7 +149,7 @@ int main(int argc, char **argv) {
 	//imwrite("../Data/8_5.png", frame);
 	//******************************************************************
 	
-	while (temp < 71)
+	while (temp < 100)
 	{
  		ss << "../Data/cervenyKruhX" << temp << ".jpg";
 	
