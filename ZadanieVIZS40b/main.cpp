@@ -112,7 +112,7 @@ int posun;
 int main(int argc, char **argv) {
 	// Usage: ./circle_detect image_circles_path
 //	check_program_arguments(argc);
-	int temp = 0;
+	int temp = 70;
 	double pixelPosun = (double)45 / 640;
 	double stredSirka = 335;//640 / 2;
 	// Load input image
@@ -149,7 +149,7 @@ int main(int argc, char **argv) {
 	//imwrite("../Data/8_5.png", frame);
 	//******************************************************************
 	
-	while (temp < 100)
+	while (temp < 71)
 	{
  		ss << "../Data/cervenyKruhX" << temp << ".jpg";
 	
@@ -192,7 +192,7 @@ int main(int argc, char **argv) {
 	cv::addWeighted(lower_red_hue_range,1, upper_red_hue_range, 1, 0.0, red_hue_image);
 
 	cv::GaussianBlur(red_hue_image, red_hue_image, cv::Size(9, 9), 2, 2);
-
+	cv::GaussianBlur(green_hue_range, green_hue_range, cv::Size(9, 9), 2, 2);
 	// Use the Hough transform to detect circles in the combined threshold image
 	std::vector<cv::Vec3f> circles;
 	cv::HoughCircles(red_hue_image, circles, CV_HOUGH_GRADIENT, 1, red_hue_image.rows / 8, 100, 20, 0, 0);
